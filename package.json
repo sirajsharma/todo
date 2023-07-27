@@ -1,0 +1,43 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Backend for Todo app in ExpressJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sirajsharma/todo.git"
+  },
+  "keywords": [
+    "TODO",
+    "NodeJS",
+    "Prisma",
+    "Backend",
+    "ExpressJS",
+    "API",
+    "REST",
+    "API"
+  ],
+  "author": "Siraj Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sirajsharma/todo/issues"
+  },
+  "homepage": "https://github.com/sirajsharma/todo#readme",
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "@types/node": "^20.4.5",
+    "brcypt": "^1.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.1",
+    "prisma": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
