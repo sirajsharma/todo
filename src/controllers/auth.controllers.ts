@@ -16,11 +16,11 @@ export const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.json({ message: "Email is not registered" }).status(400);
+      return res.status(400).json({ message: "Email is not registered" });
     }
 
     if (!compareData(password, user.password)) {
-      return res.json({ message: "Password is incorrect" }).status(400);
+      return res.status(400).json({ message: "Password is incorrect" });
     }
 
     const token = generateToken({
@@ -30,25 +30,28 @@ export const login = async (req: Request, res: Response) => {
     });
 
     res
-      .cookie("token", token, { httpOnly: true, secure: false })
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+      })
       .json({ message: "Login success" });
   } catch (error) {
     console.error(error);
-    res.json({ message: "Something went wrong" }).status(500);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
   try {
-    console.log("token: ", req.headers.cookie);
     if (!req.headers.cookie) {
-      return res.json({ message: "User is not logged in" }).status(400);
+      return res.status(400).json({ message: "User is not logged in" });
     }
 
-    res.clearCookie("token").json({ message: "Logout success" }).status(201);
+    res.clearCookie("token").status(201).json({ message: "Logout success" });
   } catch (error) {
     console.error(error);
-    res.json({ message: "Something went wrong" }).status(500);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -68,16 +71,16 @@ export const register = async (req: Request, res: Response) => {
 
     if (checkEmail && checkUsername) {
       return res
-        .json({ message: "Email and username already exist" })
-        .status(409);
+        .status(409)
+        .json({ message: "Email and username already exist" });
     }
 
     if (checkEmail) {
-      return res.json({ message: "Email already exist" }).status(409);
+      return res.status(409).json({ message: "Email already exist" });
     }
 
     if (checkUsername) {
-      return res.json({ message: "Username already exist" }).status(409);
+      return res.status(409).json({ message: "Username already exist" });
     }
 
     const user = await prisma.user.create({
@@ -93,12 +96,12 @@ export const register = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.json({ message: "Something went wrong" }).status(500);
+      return res.status(500).json({ message: "Something went wrong" });
     }
 
-    res.json({ message: "Register success" }).status(201);
+    res.status(201).json({ message: "Register success" });
   } catch (error) {
     console.error(error);
-    res.json({ message: "Something went wrong" }).status(500);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
