@@ -3,7 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import { userRoutes, authRoutes } from "./routes";
+import { userRoutes, authRoutes, todoRoutes } from "./routes";
 
 import { protect } from "./middlewares/protect.middleware";
 
@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Protected routes
 app.use("/api", protect, userRoutes);
+app.use("/api", protect, todoRoutes);
 
 // Unprotected routes
 app.use("/", authRoutes);
