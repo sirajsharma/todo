@@ -30,6 +30,7 @@ export const getTodos = async (req: Request, res: Response): Promise<void> => {
 
     res.status(200).json({ data: todos });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -70,6 +71,7 @@ export const getTodoById = async (
 
     res.status(200).json({ data: todo });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -117,6 +119,7 @@ export const createTodo = async (
 
     res.status(201).json({ data: todo });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -178,6 +181,7 @@ export const updateTodo = async (
 
     res.status(201).json({ data: todo });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -210,6 +214,7 @@ export const deleteTodo = async (
 
     res.status(200).json({ message: "Todo deleted successfully" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };

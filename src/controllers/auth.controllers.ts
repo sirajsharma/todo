@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import type { Request, Response } from "express";
 
 import { compareData, encryptData } from "../utils/encryption";
-import { generateToken } from "../utils/token";
+import { generateToken, verifyToken } from "../utils/token";
 
 const prisma = new PrismaClient();
 
@@ -35,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
         secure: false,
         sameSite: "lax",
       })
-      .json({ message: "Login success" });
+      .json({ data: { user: user.userId, username: user.username } });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
@@ -100,6 +100,34 @@ export const register = async (req: Request, res: Response) => {
     }
 
     res.status(201).json({ message: "Register success" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const refreshToken = async (req: Request, res: Response) => {
+  try {
+    const { token } = req.cookies;
+
+    if (!token) {
+      return res.status(400).json({ message: "User is not logged in" });
+    }
+
+    const decodedToken = verifyToken(token) as User;
+    const newToken = generateToken({
+      userId: decodedToken.userId,
+      email: decodedToken.email,
+      username: decodedToken.username,
+    });
+
+    res
+      .cookie("token", newToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+      })
+      .json({ message: "Refresh token success" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
